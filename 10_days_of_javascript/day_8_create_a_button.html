@@ -1,0 +1,32 @@
+<!-- Enter your HTML code here -->
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <style>
+        button {
+            width: 96px;
+            height: 48px;
+            font-size: 24px;
+        }
+    </style>
+    <script>
+        function increment() {
+            let button = document.getElementById('btn');
+            let number = Number(button.innerHTML);
+            button.innerHTML = number + 1;
+        }
+    </script>
+
+    <!-- <link rel="stylesheet" href="./css/button.css"/> -->
+    <title>Button</title>
+    <!-- <script src="./js/button.js"></script> -->
+</head>
+
+<body>
+    <button id="btn" onclick="increment()">0</button>
+
+</body>
+
+</html>

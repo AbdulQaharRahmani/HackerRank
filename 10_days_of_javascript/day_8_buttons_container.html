@@ -1,0 +1,71 @@
+<!-- Enter your HTML code here -->
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>Buttons Grid</title>
+    <style>
+        #btns {
+            width: 75%;
+        }
+
+        button {
+            display: block;
+            width: 30%;
+            height: 48px;
+            font-size: 24px;
+        }
+
+        .row {
+            display: flex;
+            justify-content: space-between;
+        }
+    </style>
+    <script>
+        function rotate() {
+            let btns = [];
+            let btnValues = [];
+            for (let i = 1; i <= 9; i++) {
+                let btn = document.getElementById('btn' + i);
+                btnValues.push(btn.innerHTML);
+                btns.push(btn);
+            }
+
+            btns[0].innerHTML = btnValues[3];
+            btns[1].innerHTML = btnValues[0];
+            btns[2].innerHTML = btnValues[1];
+            btns[3].innerHTML = btnValues[6];
+            btns[5].innerHTML = btnValues[2];
+            btns[6].innerHTML = btnValues[7];
+            btns[7].innerHTML = btnValues[8];
+            btns[8].innerHTML = btnValues[5];
+
+        }
+    </script>
+    <!-- <link rel="stylesheet" href="./css/buttonsGrid.css" />
+        <script src="./js/buttonsGrid.js"></script> -->
+</head>
+
+<body>
+    <div id="btns">
+        <div class="row">
+            <button id="btn1">1</button>
+            <button id="btn2">2</button>
+            <button id="btn3">3</button>
+        </div>
+        <div class="row">
+            <button id="btn4">4</button>
+            <button id="btn5" onclick="rotate()">5</button>
+            <button id="btn6">6</button>
+        </div>
+        <div class="row">
+            <button id="btn7">7</button>
+            <button id="btn8">8</button>
+            <button id="btn9">9</button>
+        </div>
+
+    </div>
+</body>
+
+</html>
