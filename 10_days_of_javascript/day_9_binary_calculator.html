@@ -59,23 +59,67 @@
             let numRegex = /[01]+/g;
             let arr = expression.match(numRegex);
 
-            // let operatorRegex = /[+\-*\/]/;
-            // let operation = expression.match(operatorRegex);
-            result.innerHTML = add(arr[0], arr[1]);
+            let operatorRegex = /[+\-*\/]/;
+            let operation = expression.match(operatorRegex);
+            console.log(operation);
+            switch (operation[0]) {
+                case '+': result.innerHTML = add(arr[0], arr[1]); break;
+                case '-':
+                    result.innerHTML = substract(arr[0], arr[1]); break;
+                case '*':
+                    result.innerHTML = multiply(arr[0],arr[1]);break;
+            }
+
             console.log(arr);
         }
+        function multiply(s1, s2) {
+            let lastAnswer = '';
 
-        function substract(s1,s2){
-            let s1Compliment = onesCompliment(s1);
+            for (let i = s1.length - 1; i >= 0; i--) {
+                let carry = 0;
+                let answer = '';
+                for (let j = s2.length - 1; j >= 0; j--) {
+                    let mul = carry + parseInt(s1.charAt(i)) * parseInt(s2.charAt(j));
+                    answer = (mul % 2) + answer;
+                    carry = Math.floor(mul / 2);
+                }
+                if (carry !== 0) {
+                    answer = carry + answer;
+                }
+                for (let k = s1.length - 1; k > i; k--) {
+                    answer = answer + '0';
+                }
+                lastAnswer = add(lastAnswer, answer);
+            }
+            return lastAnswer;
+        }
+        function substract(s1, s2) {
+
+            // add extra 0's to make s1 and s2 same size
+            while (s1.length > s2.length) {
+                s2 = '0' + s2;
+            }
+
             let s2Compliment = onesCompliment(s2);
+            console.log(`s2' = ${s2Compliment}`);
 
-            
+            let result = add(s1, s2Compliment);
+            console.log('added: ' + result);
+            // if there is carry
+            if (result.length > s1.length && result.length > s2.length) {
+                result = result.slice(1);
+                console.log(result);
+                let ans = add(result, '1');
+                return ans;
+            } else {
+                return onesCompliment(result);
+            }
 
         }
-        function onesCompliment(s){
-            let k = s;
-            for(let i = 0; i<s.length;i++){
-                k[i] = (s[i]===0)?1:0;
+        function onesCompliment(s) {
+            let k = '';
+            for (let i = 0; i < s.length; i++) {
+                k += (s.charAt(i) === '0') ? '1' : '0';
             }
             return k;
         }
