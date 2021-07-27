@@ -19,7 +19,6 @@ function processData(input) {
 }
 function insert(value) {
     heap.push(value);
-
     bubbleUp(heap.length - 1);
 }
 function deleteValue(value) {
