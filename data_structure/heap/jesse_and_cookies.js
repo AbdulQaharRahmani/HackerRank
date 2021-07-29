@@ -1,30 +1,69 @@
-let heap = [];
-function processData(input) {
-    //Enter your code here
-    const arr = input.split("\n");
-    for (let i = 1; i < arr.length; i++) {
-        let str = arr[i].split(" ");
+'use strict';
 
-        switch (str[0]) {
-            case '1': // add a value 
-                insert(Number.parseInt(str[1]));
-                break;
-            case '2':
-                deleteValue(Number.parseInt(str[1]));
-                break;
-            case '3':
-                console.log(heap[0]);
-        }
-    }
+const fs = require('fs');
+
+process.stdin.resume();
+process.stdin.setEncoding('utf-8');
+
+let inputString = '';
+let currentLine = 0;
+
+process.stdin.on('data', function (inputStdin) {
+    inputString += inputStdin;
+});
+
+process.stdin.on('end', function () {
+    inputString = inputString.split('\n');
+
+    main();
+});
+
+function readLine() {
+    return inputString[currentLine++];
 }
+
+/*
+ * Complete the 'cookies' function below.
+ *
+ * The function is expected to return an INTEGER.
+ * The function accepts following parameters:
+ *  1. INTEGER k
+ *  2. INTEGER_ARRAY A
+ */
+let heap = [];
+
+function cookies(k, A) {
+    // Write your code here
+    A.forEach(num => {
+        insert(num);
+    });
+    let count = 0;
+    while (heap[0] < k) {
+        const num1 = heap[0];
+        let num2;
+        if (heap.length < 3)
+            num2 = heap[1];
+        else
+            num2 = heap[1] < heap[2] ? heap[1] : heap[2];
+
+        deleteByIndex(0);
+        deleteByIndex(0);
+
+        const newNumber = num1 + 2 * num2;
+        insert(newNumber);
+        count++;
+    }
+    if (!heap[0])
+        return -1;
+    return count;
+}
+
+
 function insert(value) {
     heap.push(value);
     bubbleUp(heap.length - 1);
 }
-function deleteValue(value) {
-    let index = 0;
-    while (heap[index] !== value)
-        index++;
+function deleteByIndex(index) {
 
     if (index === heap.length - 1) {
         heap.pop();
@@ -37,9 +76,8 @@ function deleteValue(value) {
     // Heapify
     bubbleUp(index);
     bubbleDown(index);
-
-
 }
+
 function bubbleDown(index) {
     while (index < heap.length) {
         let leftChild = 2 * index + 1;
@@ -93,13 +131,20 @@ function swap(i, j) {
     heap[i] = heap[j];
     heap[j] = temp;
 }
-process.stdin.resume();
-process.stdin.setEncoding("ascii");
-_input = "";
-process.stdin.on("data", function (input) {
-    _input += input;
-});
+function main() {
+    const ws = fs.createWriteStream(process.env.OUTPUT_PATH);
 
-process.stdin.on("end", function () {
-    processData(_input);
-});
+    const firstMultipleInput = readLine().replace(/\s+$/g, '').split(' ');
+
+    const n = parseInt(firstMultipleInput[0], 10);
+
+    const k = parseInt(firstMultipleInput[1], 10);
+
+    const A = readLine().replace(/\s+$/g, '').split(' ').map(ATemp => parseInt(ATemp, 10));
+
+    const result = cookies(k, A);
+
+    ws.write(result + '\n');
+
+    ws.end();
+}
